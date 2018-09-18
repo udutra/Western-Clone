@@ -10,8 +10,15 @@ public class LevelController : MonoBehaviour {
     public List<Keys> gameKeys;
     public Image[] player1Images;
     public Image[] player2Images;
+    public static LevelController instance;
+    public bool canPlay = false;
 
-	void Start () {
+    private void Awake()
+    {
+        instance = this;
+    }
+
+    void Start () {
         StartCoroutine(StartingKeys());
 	}
 
@@ -31,6 +38,19 @@ public class LevelController : MonoBehaviour {
             player2Images[i].preserveAspect = true;
             player2Images[i].enabled = true;
             yield return new WaitForSeconds(0.25f);
+        }
+        canPlay = true;
+    }
+
+    public void NextKey(int playerIndex, int keyIndex)
+    {
+        if(playerIndex == 0)
+        {
+            player1Images[keyIndex].enabled = false;
+        }
+        else
+        {
+            player2Images[keyIndex].enabled = false;
         }
     }
 }
