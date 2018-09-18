@@ -12,21 +12,20 @@ public class LevelController : MonoBehaviour {
     public Image[] player2Images;
     public static LevelController instance;
     public bool canPlay = false;
+    public Text messageText;
+    public Text[] playersTimeText;
+    public float[] playersTime; 
 
     private void Awake()
     {
         instance = this;
     }
 
-    void Start () {
+    private void Start () {
         StartCoroutine(StartingKeys());
 	}
 
-	void Update () {
-		
-	}
-
-    IEnumerator StartingKeys()
+	private IEnumerator StartingKeys()
     {
         for (int i = 0; i < player1Images.Length; i++)
         {
@@ -40,6 +39,8 @@ public class LevelController : MonoBehaviour {
             yield return new WaitForSeconds(0.25f);
         }
         canPlay = true;
+        messageText.text = "GO";
+        StartCoroutine(Fading(messageText));
     }
 
     public void NextKey(int playerIndex, int keyIndex)
@@ -53,11 +54,23 @@ public class LevelController : MonoBehaviour {
             player2Images[keyIndex].enabled = false;
         }
     }
+
+    private IEnumerator Fading(Text text)
+    {
+        Color newColor = text.color;
+        while (newColor.a > 0)
+        {
+            newColor.a -= Time.deltaTime;
+            text.color = newColor;
+            yield return null;
+        }
+    }
+
+    public void UpdatePlayerTime(float time, int player)
+    {
+        playersTime[player] = time;
+        playersTimeText[player].text = playersTime[player].ToString("0.00") + " s";
+    }
 }
 
-[Serializable]
-public class Keys
-{
-    public Sprite keySprite;
-    public KeyCode key;
-}
+

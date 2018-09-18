@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour {
     private int keyIndex = 8;
     public int playerIndex;
     private bool canPlay = false;
+    private float timer;
 
     private IEnumerator Start()
     {
@@ -19,11 +20,13 @@ public class PlayerController : MonoBehaviour {
         canPlay = true;
     }
 
-    void Update () {
+    private void Update () {
         if(canPlay == false)
         {
             return;
         }
+
+        timer += Time.deltaTime;
 
         if (Input.GetKeyDown(LevelController.instance.gameKeys[keyIndex].key))
         {
@@ -38,6 +41,7 @@ public class PlayerController : MonoBehaviour {
         if(keyIndex < 0)
         {
             canPlay = false;
+            LevelController.instance.UpdatePlayerTime(timer, playerIndex);
         }
     }
 }
