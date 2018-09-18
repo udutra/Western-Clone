@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LevelController : MonoBehaviour {
 
@@ -17,6 +18,7 @@ public class LevelController : MonoBehaviour {
     public float[] playersTime;
     public PlayerController[] players;
     public RectTransform[] cursor;
+    public GameObject restartButton;
 
     private void Awake()
     {
@@ -99,7 +101,14 @@ public class LevelController : MonoBehaviour {
                 players[i].SetAnimation(triggersAnims[i]);
                 playersTimeText[i].text = playersTime[i].ToString("0.00") + " s";
             }
+
+            restartButton.SetActive(true);
         }
+    }
+
+    public void RestartScene()
+    {
+        SceneManager.LoadScene("PlayGame");
     }
 }
 

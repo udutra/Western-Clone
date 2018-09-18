@@ -7,5 +7,5 @@ using UnityEngine;
 public class Keys
 {
     public Sprite keySprite;
-    public KeyCode key;
+    public string[] key;
 }
