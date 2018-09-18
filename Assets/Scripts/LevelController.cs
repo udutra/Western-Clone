@@ -14,7 +14,8 @@ public class LevelController : MonoBehaviour {
     public bool canPlay = false;
     public Text messageText;
     public Text[] playersTimeText;
-    public float[] playersTime; 
+    public float[] playersTime;
+    public PlayerController[] players;
 
     private void Awake()
     {
@@ -69,7 +70,28 @@ public class LevelController : MonoBehaviour {
     public void UpdatePlayerTime(float time, int player)
     {
         playersTime[player] = time;
-        playersTimeText[player].text = playersTime[player].ToString("0.00") + " s";
+        
+        if(playersTime[0] > 0 && playersTime[1] > 0)
+        {
+            //PlayerController[] players = FindObjectsOfType<PlayerController>();
+            string[] triggersAnims = new string[2];
+            if(playersTime[0] > playersTime[1])
+            {
+                triggersAnims[0] = "Dead";
+                triggersAnims[1] = "Shoot";
+            }
+            else
+            {
+                triggersAnims[0] = "Shoot";
+                triggersAnims[1] = "Dead";
+            }
+
+            for (int i = 0; i < playersTime.Length; i++)
+            {
+                players[i].SetAnimation(triggersAnims[i]);
+                playersTimeText[i].text = playersTime[i].ToString("0.00") + " s";
+            }
+        }
     }
 }
 

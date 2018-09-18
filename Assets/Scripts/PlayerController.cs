@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
@@ -9,6 +7,8 @@ public class PlayerController : MonoBehaviour {
     public int playerIndex;
     private bool canPlay = false;
     private float timer;
+    private float nextKeyTime;
+    public Animator anim;
 
     private IEnumerator Start()
     {
@@ -28,6 +28,16 @@ public class PlayerController : MonoBehaviour {
 
         timer += Time.deltaTime;
 
+        if (playerIndex == 1)
+        {
+            if(Time.time > nextKeyTime)
+            {
+                nextKeyTime = Time.time + Random.Range(0.25f, 0.5f);
+                KeyPress();
+            }
+            return;
+        }
+
         if (Input.GetKeyDown(LevelController.instance.gameKeys[keyIndex].key))
         {
             KeyPress();
@@ -43,5 +53,10 @@ public class PlayerController : MonoBehaviour {
             canPlay = false;
             LevelController.instance.UpdatePlayerTime(timer, playerIndex);
         }
+    }
+
+    public void SetAnimation(string triggerAnimation)
+    {
+        anim.SetTrigger(triggerAnimation);
     }
 }
