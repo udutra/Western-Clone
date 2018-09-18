@@ -42,6 +42,9 @@ public class PlayerController : MonoBehaviour {
         {
             KeyPress();
         }
+        else if(Input.anyKeyDown){
+            timer += 0.2f;
+        }
 	}
 
     private void KeyPress()

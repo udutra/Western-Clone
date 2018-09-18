@@ -16,6 +16,7 @@ public class LevelController : MonoBehaviour {
     public Text[] playersTimeText;
     public float[] playersTime;
     public PlayerController[] players;
+    public RectTransform[] cursor;
 
     private void Awake()
     {
@@ -30,6 +31,11 @@ public class LevelController : MonoBehaviour {
     {
         for (int i = 0; i < player1Images.Length; i++)
         {
+            for (int y = 0; y < cursor.Length; y++)
+            {
+                cursor[y].anchoredPosition = new Vector2(cursor[y].anchoredPosition.x, cursor[y].anchoredPosition.y + 45);
+            }
+
             gameKeys.Add(keys[UnityEngine.Random.Range(0, keys.Length)]);
             player1Images[i].sprite = gameKeys[i].keySprite;
             player1Images[i].preserveAspect = true;
@@ -46,7 +52,9 @@ public class LevelController : MonoBehaviour {
 
     public void NextKey(int playerIndex, int keyIndex)
     {
-        if(playerIndex == 0)
+        cursor[playerIndex].anchoredPosition = new Vector2(cursor[playerIndex].anchoredPosition.x, cursor[playerIndex].anchoredPosition.y - 45);
+
+        if (playerIndex == 0)
         {
             player1Images[keyIndex].enabled = false;
         }
